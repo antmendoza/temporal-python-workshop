@@ -257,8 +257,7 @@ cancel the other child workflows.
 
 ## Exersice 6 - Worker configuration
 
-//TODO the idea is to configure the worker to throttle the activities and show the effect in metrics
-
+//TODO 
 
 
 # Further reading:
