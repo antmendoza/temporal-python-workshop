@@ -49,6 +49,8 @@ class WorkflowNDE:
             )
         )
 
+        workflow.logger.info("[workflow.logger.info] Scheduling timer")
+
         await asyncio.sleep(20)
 
         workflow.logger.info("[workflow.logger.info]Workflow about to complete " + activity_result)
