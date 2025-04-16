@@ -1,4 +1,5 @@
 import asyncio
+from asyncio import create_task
 from dataclasses import dataclass
 from datetime import timedelta
 
@@ -20,6 +21,7 @@ class WorkflowLog:
     @workflow.run
     async def run(self, wf_input: WorkflowInput) -> str:
         workflow.logger.info("[workflow.logger.info]Workflow starts " + workflow.info().workflow_id)
+
         print("[print]Workflow starts " + workflow.info().workflow_id)
 
         activity_result = await workflow.execute_activity(

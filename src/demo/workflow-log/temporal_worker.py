@@ -4,6 +4,7 @@ import logging
 from temporalio.client import Client
 from temporalio.worker import Worker
 from workflow_log import WorkflowLog
+from workflow_application_error import WorkflowApplicationError
 from workflow_NDE import WorkflowNDE
 from activities import activity_1, activity_2
 
@@ -12,7 +13,8 @@ queue = "demo-task-queue"
 
 workflows = [
     WorkflowLog,
-    WorkflowNDE
+    WorkflowNDE,
+    WorkflowApplicationError
 ]
 
 
