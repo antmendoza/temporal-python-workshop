@@ -5,6 +5,7 @@ from temporalio.common import WorkflowIDReusePolicy
 
 from src.temporal_worker import queue
 from src.workflow.system_patch_workflow_v1 import SystemPatchWorkflow_V1
+from src.workflow.system_patch_workflow_v3 import SystemPatchWorkflow_V3
 from src.workflow.system_patch_workflow_v7 import SystemPatchWorkflow_V7
 from src.workflow.types import SystemPatchWorkflowInput
 
@@ -27,7 +28,7 @@ async def main():
         id_reuse_policy=WorkflowIDReusePolicy.TERMINATE_IF_RUNNING
     )
 
-    # asyncio.create_task(query_workflow(workflow_handle))
+    #asyncio.create_task(query_workflow(workflow_handle))
 
     await asyncio.sleep(3)  # revisar
     await workflow_handle.signal(SystemPatchWorkflow.approve_request)  # revisar

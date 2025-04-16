@@ -78,6 +78,22 @@ Spend some time inspecting the workflow history in the UI.
 
 Note that the implementation of some activities is designed to fail during the first retry (ej. `check_service_health_activity`).
 
+
+[activities.py](src/workflow/activities.py)
+
+```
+@activity.defn
+async def check_service_health_activity(self, activity_input: CheckServiceHealthActivityInput) -> bool:
+    await self.simulate_activity_execution()
+
+    # Simulate a health check failure
+    if activity_input.hostname == "cluster1_host1" and activity.info().attempt == 1:
+        raise Exception("Service health check failed: " + str(activity_input))
+
+    return True
+
+```
+
 Open the workflow history in the UI, click on its ActivityTaskStarted and ActivityTaskComplete and 
 check the information in the fields `Attemps` and `LastFailure`.
 
@@ -101,9 +117,10 @@ completed steps to this variable.
 
 **Run the code**
 Restart the worker and the client, the workflow should complete after several seconds, 
-go to the UI and check the progress.
+go to the UI and check the progress and the logs of the client should show the progress.
  
-
+> Queries should only return in-memory data and do not modify the workflow history (e.g. don't run an 
+activity from a query method)
 
 ## Exersice 3 - Activity Timeouts and heartbeat
 Temporal allows you to set timeouts to activities and also to send heartbeats from them, this is 
