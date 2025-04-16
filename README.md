@@ -7,6 +7,8 @@ be implemented in this workshop.
 ## [system_patch_workflow_v1.py](src/workflow/system_patch_workflow_v1.py)
 This file contains the basic implementation as a set of activities to be executed in the workflow.
 
+For the sake of simplicity, some activity executions are skipped. There is a comment in the code that indicates it.
+
 Open the file and review the implementation.
 
 Every step defined in the file [System_Patching.md](./src/workflow/System_Patching.md) is defined as an activity,
@@ -31,11 +33,10 @@ You won't have to do it if you are just modifying your own implementation.
 
 # Workshop
 
-
 Each exercise’s final implementation is in the next version of the file (v1, v2, and so on).
 
 
-## Exersice 0 - Environment setup
+## Exersice 0 - Environment setup (~10 min)
 
 Make sure you can run the workflow [system_patch_workflow_v1.py](src/workflow/system_patch_workflow_v1.py)
 
@@ -47,7 +48,7 @@ Make sure you can run the workflow [system_patch_workflow_v1.py](src/workflow/sy
   - http://localhost:8080 for the [Temporal docker-compose](https://github.com/temporalio/docker-compose)
 
 
-## Exersice 1 - Message passing (Signal/Update)
+## Exersice 1 - Message passing (Signal/Update) (~ 15 min)
 During this exercise, you will implement the step 2 : "Execute SendApprovalRequestActivity. If not approved, terminate."
 
 You can use the file [system_patch_workflow_v1.py](src/workflow/system_patch_workflow_v1.py) as starting point:
@@ -57,8 +58,10 @@ You can use the file [system_patch_workflow_v1.py](src/workflow/system_patch_wor
 The main difference is that signal is asynchronous and update is synchronous.
   - https://docs.temporal.io/develop/python/message-passing#signals
   - https://docs.temporal.io/develop/python/message-passing#updates
-  - Additionally, you can add a timeout to `workflow.await` to react if the approval response takes too long. 
-    - If a timer times out it throws a TimeoutError, which you [have to catch and handle](https://github.com/temporalio/sdk-python/issues/798). 
+  - Additionally, you can add a timeout to [workflow.wait_condition](https://python.temporal.io/temporalio.workflow.html#wait_condition) 
+  to react if the approval response takes too long. 
+    - If a timer times out it throws a TimeoutError, which you have to catch and handle until [this](https://github.com/temporalio/sdk-python/issues/798) 
+    issue is resolved. 
     - To fail the workflow, you can re-throw the error as an `temporalio.exceptions.ApplicationError`
   - If the timeout is reached you can decide either fail the workflow or complete it.
 
@@ -75,6 +78,22 @@ Spend some time inspecting the workflow history in the UI.
 
 Note that the implementation of some activities is designed to fail during the first retry (ej. `check_service_health_activity`).
 
+
+[activities.py](src/workflow/activities.py)
+
+```
+@activity.defn
+async def check_service_health_activity(self, activity_input: CheckServiceHealthActivityInput) -> bool:
+    await self.simulate_activity_execution()
+
+    # Simulate a health check failure
+    if activity_input.hostname == "cluster1_host1" and activity.info().attempt == 1:
+        raise Exception("Service health check failed: " + str(activity_input))
+
+    return True
+
+```
+
 Open the workflow history in the UI, click on its ActivityTaskStarted and ActivityTaskComplete and 
 check the information in the fields `Attemps` and `LastFailure`.
 
@@ -82,7 +101,7 @@ check the information in the fields `Attemps` and `LastFailure`.
 ![activity_last_failure](doc/activity_last_failure.png)
 
 
-## Exersice 2 - Workflow query
+## Exersice 2 - Workflow query  (~ 10 min)
 Imagine you need to check periodically the steps that has been completed for each execution. 
 
 Workflow queries allow us to retrieve state from a Workflow Execution.
@@ -98,11 +117,12 @@ completed steps to this variable.
 
 **Run the code**
 Restart the worker and the client, the workflow should complete after several seconds, 
-go to the UI and check the progress.
+go to the UI and check the progress and the logs of the client should show the progress.
  
+> Queries should only return in-memory data and do not modify the workflow history (e.g. don't run an 
+activity from a query method)
 
-
-## Exersice 3 - Activity Timeouts and heartbeat
+## Exersice 3 - Activity Timeouts and heartbeat (~ 15 min)
 Temporal allows you to set timeouts to activities and also to send heartbeats from them, this is 
 useful to react quickly to worker failures and to resume the activity execution from when it was interrupted.
 
@@ -117,7 +137,7 @@ You can use the file [system_patch_workflow_v3.py](src/workflow/system_patch_wor
 ### Exersice 3.1 Start to close timeout
 
 - Review the `perform_update_activity` activity options, where the method `perform_update_activity` is called, note
-that `start_to_close_timeout` is set to 10 seconds. 
+that `start_to_close_timeout` is set to 10 seconds and `maximum_attempts=3`
 - Modify the activity implementation to add a `await asyncio.sleep` > 10 seconds.
 
 **Run the code**
@@ -181,7 +201,7 @@ the activity execution quickly.
 ![activity_last_failure_hb.png](doc/activity_last_failure_hb.png)
 
 
-## Exersice 4 - Concurrency
+## Exersice 4 - Concurrency  (~ 10 min)
 Temporal allows running multiple activities (or child workflows as we will see later) in parallel, 
 this is useful to reduce the execution time of the workflow when there are multiple independent tasks to be executed.
 
@@ -201,7 +221,7 @@ You can use the file [system_patch_workflow_v4.py](src/workflow/system_patch_wor
 
 Click the gear icon ⚙️ in the bottom-right corner of the UI to add or remove columns
 
-## Exersice 5 - Child workflows
+## Exersice 5 - Child workflows (~ 20 min)
 Child workflows are feature that allows you to spawn a workflow from another workflow. There are several 
 use cases for this feature, for example to 
 [represent each resource as a workflow](https://docs.temporal.io/child-workflows#represent-a-single-resource)
@@ -224,8 +244,8 @@ Modify the workflow to spawn a child workflow for each target cluster:
 
 
 
-## Exersice 6 - Cancellation and cancellation scope
-The new requirement is that if updating one of the hosts fails, we want to cancel the update of the other hosts in the same cluster.
+## Exersice 6 - Cancellation and cancellation scope (~ 15 min)
+The new requirement is that if updating one of the hosts it fails, we want to cancel the update of the other hosts in the same cluster.
 
 In Temporal ["Cancellation is done using asyncio task cancellation"](https://github.com/temporalio/sdk-python?tab=readme-ov-file#asyncio-cancellation).
 
@@ -254,8 +274,7 @@ cancel the other child workflows.
 ![cancel_child.png](doc/cancel_child.png)
 
 
-
-## Exersice 6 - Worker configuration
+## Exersice 7 - Worker configuration
 Workers are the piece of software that executes our code in form or workflow and activity task. 
 To do so they open long poll connections (gRPC) to the server to poll tasks. 
 
@@ -273,11 +292,20 @@ Observability is key to understand how our workers are performing and if they ar
 For this exersice we have integrated prometheus a grafana with the client and workers to explore 
 the [SDK metrics](https://docs.temporal.io/references/sdk-metrics) 
 
-//TODO
+This exercise demonstrates how the worker configuration can impact end-to-end workflow latency.
 
-[start-grafana_prometheus.sh](start-grafana_prometheus.sh)
+- To start the prometheus and grafana containers run the script [start-grafana_prometheus.sh](start-grafana_prometheus.sh)
+  - Open the grafana UI in http://localhost:3000, there is already a preloaded dashboard with the metrics.
+
+- We have modified the worker ([temporal_worker_v8.py](src/temporal_worker_v8.py)) to throttle the number of concurrent activity tasks, check the configuration.
+- The client ([temporal_client_v8.py](src/temporal_client_v8.py)) is configured to start 5 workflows. 
+
+- After running the client and the worker check the grafana dashboard and the UI, note that the schedule to start latency is high for activities.
+
+![schedule_to_start_latency.png](doc/schedule_to_start_latency.png)
 
 
+- Play with the worker configuration and see how it impacts the workflow execution latencies.
 
 
 # Further reading:
@@ -301,3 +329,7 @@ the [SDK metrics](https://docs.temporal.io/references/sdk-metrics)
 
 - Workflow Execution Limits
   - https://docs.temporal.io/workflow-execution/limits
+
+- Worker performance
+  - https://docs.temporal.io/develop/worker-performance
+  - https://docs.temporal.io/troubleshooting/performance-bottlenecks

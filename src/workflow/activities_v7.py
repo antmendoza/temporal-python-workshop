@@ -19,7 +19,7 @@ def activities(vault_client):
     my_activities = MyActivities(vault_client)
 
     return [
-        my_activities.send_approval_request_activity,  # revisar
+        my_activities.send_approval_request_activity,
         my_activities.vault_client_activity,
         my_activities.get_cluster_hosts_activity,
         my_activities.check_host_preconditions_activity,
@@ -85,15 +85,10 @@ class MyActivities:
     async def check_host_preconditions_activity(self,
                                                 activity_input: CheckHostPreconditionsActivityInput) -> CheckHostPreconditionsActivityOutput:
 
-
-
-
-
         await asyncio.sleep(uniform(6, 10))
 
         #await asyncio.sleep(uniform(1, 5))
         #raise ApplicationError("Simulated failure in check_host_preconditions_activity", non_retryable=True)
-
 
         await self.simulate_activity_execution()
         return CheckHostPreconditionsActivityOutput(True, "ssh-private-key")

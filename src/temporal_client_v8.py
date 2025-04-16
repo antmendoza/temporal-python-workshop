@@ -25,10 +25,11 @@ async def start_workflow(client, i):
 
     # asyncio.create_task(query_workflow(workflow_handle))
 
-    await asyncio.sleep(3)  # revisar
-    await workflow_handle.signal(SystemPatchWorkflow.approve_request)  # revisar
-
     print("Workflow started with workflow_id:", workflow_handle.id)
+
+    await asyncio.sleep(3)
+    await workflow_handle.signal(SystemPatchWorkflow.approve_request)
+
     print("Result:", await workflow_handle.result())
 
 
@@ -43,7 +44,7 @@ async def main():
 
     tasks = [asyncio.create_task(
         start_workflow(client, i)
-    ) for i in range(1,6)]
+    ) for i in range(1,5)]
     
 
     await asyncio.gather(*tasks)
