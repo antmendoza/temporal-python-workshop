@@ -119,7 +119,7 @@ class SystemPatchWorkflow_V6:
                 targetCluster=target_cluster,
                 pilotHostCount=self.wf_input.pilotHostCount
             ),
-            id="SystemPatchWorkflow_Cluster_V6-target_cluster:" + target_cluster,
+            id=workflow.info().workflow_id + "_SystemPatchWorkflow_Cluster_V6-target_cluster:" + target_cluster
         )
 
 
@@ -162,18 +162,14 @@ class SystemPatchWorkflow_Cluster_V6:
 
         await self._process_hosts(pilot_hosts)
 
-
     async def _process_remaining_hosts(self, remaining_hosts: List[str]):
         workflow.logger.debug("processing remaining hosts %s", remaining_hosts)
 
-
         await self._process_hosts(remaining_hosts)
-
 
     async def _process_hosts(self, hosts):
         tasks = [self._process_host(host) for host in hosts]
         await asyncio.gather(*tasks)
-
 
     async def _process_host(self, host):
         return await workflow.execute_child_workflow(
@@ -181,7 +177,7 @@ class SystemPatchWorkflow_Cluster_V6:
             SystemPatchWorkflow_HostInput(
                 host=host,
             ),
-            id="SystemPatchWorkflow_Host_V6-host:" + host,
+            id=workflow.info().workflow_id + "_SystemPatchWorkflow_Host_V6-host:" + host,
         )
 
 

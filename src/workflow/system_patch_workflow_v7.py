@@ -5,7 +5,7 @@ from typing import List
 
 from temporalio import workflow
 from temporalio.common import RetryPolicy
-from temporalio.exceptions import ActivityError, ApplicationError, ChildWorkflowError, FailureError, TemporalError
+from temporalio.exceptions import ActivityError, ApplicationError, ChildWorkflowError, TemporalError
 
 from src.workflow.activities_v7 import MyActivities
 from src.workflow.types import SystemPatchWorkflowInput, SendApprovalRequestActivityInput, VaultClientActivityInput, \
@@ -119,7 +119,7 @@ class SystemPatchWorkflow_V7:
                 targetCluster=target_cluster,
                 pilotHostCount=self.wf_input.pilotHostCount
             ),
-            id="SystemPatchWorkflow_Cluster_V7-target_cluster:" + target_cluster,
+            id=workflow.info().workflow_id + "_SystemPatchWorkflow_Cluster_V7-target_cluster:" + target_cluster,
         )
 
 
@@ -164,7 +164,6 @@ class SystemPatchWorkflow_Cluster_V7:
             await asyncio.sleep(2)
             pass
 
-
     async def _process_pilot_hosts(self, pilot_hosts: List[str]):
         workflow.logger.debug("processing pilot hosts %s", pilot_hosts)
 
@@ -182,7 +181,7 @@ class SystemPatchWorkflow_Cluster_V7:
                 SystemPatchWorkflow_HostInput(
                     host=host,
                 ),
-                id="SystemPatchWorkflow_Host_V7-host:" + host,
+                id=workflow.info().workflow_id + "_SystemPatchWorkflow_Host_V7-host:" + host,
             )
         ) for host in hosts]
 
@@ -201,7 +200,7 @@ class SystemPatchWorkflow_Cluster_V7:
             SystemPatchWorkflow_HostInput(
                 host=host,
             ),
-            id="SystemPatchWorkflow_Host_V7-host:" + host,
+            id=workflow.info().workflow_id+"_SystemPatchWorkflow_Host_V7-host:" + host,
         )
 
 

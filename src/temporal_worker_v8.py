@@ -7,7 +7,7 @@ from temporalio.worker import Worker
 
 # from src.workflow.activities import activities
 # from src.workflow.activities_v4 import activities
-from src.workflow.activities_v7 import activities
+from src.workflow.activities import activities
 from src.workflow.system_patch_workflow_v7 import SystemPatchWorkflow_Host_V7, SystemPatchWorkflow_Cluster_V7, \
     SystemPatchWorkflow_V7
 from src.workflow.types import MyVaultClient
@@ -50,7 +50,9 @@ async def main():
         task_queue=queue,
         workflows=workflows,
         activities=activities(MyVaultClient()),
-        max_concurrent_activities=5,
+#        max_concurrent_activities=50,  # default 100
+#        max_concurrent_workflow_tasks=50,  # default 100
+#        max_cached_workflows=1000  # default 1000
     )
 
     logging.info("Starting worker")

@@ -256,8 +256,28 @@ cancel the other child workflows.
 
 
 ## Exersice 6 - Worker configuration
+Workers are the piece of software that executes our code in form or workflow and activity task. 
+To do so they open long poll connections (gRPC) to the server to poll tasks. 
 
-//TODO 
+There are two main components in the worker:
+
+- pollers: Pollers are responsible for polling the server for tasks. 
+- executors: Executors are responsible for executing the tasks. 
+
+Another important part of the worker is the worker cache. Workers will store in cache 
+workflow executions. Temporal uses sticky executions to dispatch task to the worker that has 
+the execution in cache to prevent the full replay of the workflow for each workflow task.
+
+Observability is key to understand how our workers are performing and if they are overloaded, 
+
+For this exersice we have integrated prometheus a grafana with the client and workers to explore 
+the [SDK metrics](https://docs.temporal.io/references/sdk-metrics) 
+
+//TODO
+
+[start-grafana_prometheus.sh](start-grafana_prometheus.sh)
+
+
 
 
 # Further reading:
