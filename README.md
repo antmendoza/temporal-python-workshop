@@ -101,7 +101,7 @@ check the information in the fields `Attemps` and `LastFailure`.
 ![activity_last_failure](doc/activity_last_failure.png)
 
 
-## Exersice 2 - Workflow query
+## Exersice 2 - Workflow query  (~ 10 min)
 Imagine you need to check periodically the steps that has been completed for each execution. 
 
 Workflow queries allow us to retrieve state from a Workflow Execution.
@@ -122,7 +122,7 @@ go to the UI and check the progress and the logs of the client should show the p
 > Queries should only return in-memory data and do not modify the workflow history (e.g. don't run an 
 activity from a query method)
 
-## Exersice 3 - Activity Timeouts and heartbeat
+## Exersice 3 - Activity Timeouts and heartbeat (~ 15 min)
 Temporal allows you to set timeouts to activities and also to send heartbeats from them, this is 
 useful to react quickly to worker failures and to resume the activity execution from when it was interrupted.
 
@@ -137,7 +137,7 @@ You can use the file [system_patch_workflow_v3.py](src/workflow/system_patch_wor
 ### Exersice 3.1 Start to close timeout
 
 - Review the `perform_update_activity` activity options, where the method `perform_update_activity` is called, note
-that `start_to_close_timeout` is set to 10 seconds. 
+that `start_to_close_timeout` is set to 10 seconds and `maximum_attempts=3`
 - Modify the activity implementation to add a `await asyncio.sleep` > 10 seconds.
 
 **Run the code**
