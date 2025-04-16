@@ -20,6 +20,7 @@ class WorkflowNDE:
     @workflow.run
     async def run(self, wf_input: WorkflowInput) -> str:
         workflow.logger.info("[workflow.logger.info]Workflow starts " + workflow.info().workflow_id)
+        print("[print]Workflow starts " + workflow.info().workflow_id)
 
         # https://docs.temporal.io/develop/python/versioning
 

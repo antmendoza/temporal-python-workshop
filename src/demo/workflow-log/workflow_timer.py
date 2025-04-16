@@ -27,15 +27,15 @@ class WorkflowLog:
         activity_result = await workflow.execute_activity(
             activity=activity_1,
             arg=ActivityInput(wf_input.input_1,
-                               wf_input.input_2
-                               ),
+                              wf_input.input_2
+                              ),
             start_to_close_timeout=timedelta(seconds=5),
             retry_policy=RetryPolicy(
                 maximum_attempts=3,
                 non_retryable_error_types=[]
             )
         )
-
+        #####
 
         done, pending = await workflow.wait([
             create_task(asyncio.sleep(10), name="timer_task"),
@@ -43,6 +43,11 @@ class WorkflowLog:
 
         ], return_when=asyncio.FIRST_COMPLETED);
 
+        for task in pending:
+            task.cancel()
+            workflow.logger.info("[workflow.logger.info] Cancelling task " + task.get_name())
+
+        #####
 
         workflow.logger.info("[workflow.logger.info] Scheduling timer")
 
