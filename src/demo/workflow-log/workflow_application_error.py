@@ -4,6 +4,7 @@ from datetime import timedelta
 
 from temporalio import workflow
 from temporalio.common import RetryPolicy
+from temporalio.exceptions import ApplicationError
 
 from activities import activity_1, ActivityInput, activity_2
 
@@ -29,7 +30,7 @@ class WorkflowApplicationError:
                               ),
             start_to_close_timeout=timedelta(seconds=5),
             retry_policy=RetryPolicy(
-                maximum_attempts=3,
+                # maximum_attempts=5,
                 non_retryable_error_types=[
                     # EntityNotFoundError,
                 ]
@@ -40,9 +41,9 @@ class WorkflowApplicationError:
 
         await asyncio.sleep(5)
 
-        #    if activity_result:
-        #        raise Exception("activity_result is not empty")
-        #        raise ApplicationError("my error", "my error details", )
+        #if activity_result:
+            # raise Exception("my error")
+            # raise ApplicationError("my error", "my error details", )
 
         activity_result = await workflow.execute_activity(
             activity=activity_2,
