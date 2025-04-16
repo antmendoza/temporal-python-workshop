@@ -245,7 +245,7 @@ Modify the workflow to spawn a child workflow for each target cluster:
 
 
 ## Exersice 6 - Cancellation and cancellation scope (~ 15 min)
-The new requirement is that if updating one of the hosts fails, we want to cancel the update of the other hosts in the same cluster.
+The new requirement is that if updating one of the hosts it fails, we want to cancel the update of the other hosts in the same cluster.
 
 In Temporal ["Cancellation is done using asyncio task cancellation"](https://github.com/temporalio/sdk-python?tab=readme-ov-file#asyncio-cancellation).
 

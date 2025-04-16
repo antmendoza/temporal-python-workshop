@@ -19,7 +19,7 @@ def activities(vault_client):
     my_activities = MyActivities(vault_client)
 
     return [
-        my_activities.send_approval_request_activity,  # revisar
+        my_activities.send_approval_request_activity,
         my_activities.vault_client_activity,
         my_activities.get_cluster_hosts_activity,
         my_activities.check_host_preconditions_activity,

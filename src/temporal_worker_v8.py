@@ -16,8 +16,8 @@ queue = "system_patch-task-queue"
 
 workflows = [
     SystemPatchWorkflow_V7,
-    SystemPatchWorkflow_Cluster_V7,  # revisar
-    SystemPatchWorkflow_Host_V7,  # revisar
+    SystemPatchWorkflow_Cluster_V7,
+    SystemPatchWorkflow_Host_V7,
 ]
 
 

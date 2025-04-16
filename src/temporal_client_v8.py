@@ -25,10 +25,11 @@ async def start_workflow(client, i):
 
     # asyncio.create_task(query_workflow(workflow_handle))
 
-    await asyncio.sleep(3)  # revisar
-    await workflow_handle.signal(SystemPatchWorkflow.approve_request)  # revisar
-
     print("Workflow started with workflow_id:", workflow_handle.id)
+
+    await asyncio.sleep(3)
+    await workflow_handle.signal(SystemPatchWorkflow.approve_request)
+
     print("Result:", await workflow_handle.result())
 
 
