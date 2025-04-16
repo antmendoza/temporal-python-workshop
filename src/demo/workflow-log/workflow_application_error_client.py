@@ -18,17 +18,13 @@ async def main():
             input_2=str(uuid.uuid4()),
         ),
         id="my-business-id-" + str(uuid.uuid4()),
-        task_queue=queue,
-        retry_policy=RetryPolicy(
-            non_retryable_error_types=[
-                # EntityNotFoundError,
-            ]
-        )
+        task_queue=queue
+        
 
     )
 
     print("Workflow started with workflow_id:", workflow_handle.id)
-    print("Result:", await workflow_handle.result())
+    #print("Result:", await workflow_handle.result())
 
 
 if __name__ == "__main__":

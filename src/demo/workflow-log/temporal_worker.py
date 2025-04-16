@@ -31,7 +31,8 @@ async def main():
         client,
         task_queue=queue,
         workflows=workflows,
-        activities=[activity_1, activity_2]
+        activities=[activity_1, activity_2],
+        #workflow_failure_exception_types=[WorkflowApplicationError]
     )
 
     logging.info("Starting worker")

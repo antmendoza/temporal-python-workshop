@@ -31,19 +31,18 @@ class WorkflowApplicationError:
             retry_policy=RetryPolicy(
                 maximum_attempts=3,
                 non_retryable_error_types=[
-                    #EntityNotFoundError,
+                    # EntityNotFoundError,
                 ]
             )
         )
-
 
         workflow.logger.info("[workflow.logger.info] Scheduling timer")
 
         await asyncio.sleep(5)
 
-
-        #if activity_result:
-         #raise Exception("Any error")
+        #    if activity_result:
+        #        raise Exception("activity_result is not empty")
+        #        raise ApplicationError("my error", "my error details", )
 
         activity_result = await workflow.execute_activity(
             activity=activity_2,
@@ -53,14 +52,12 @@ class WorkflowApplicationError:
                               ),
             start_to_close_timeout=timedelta(seconds=5),
             retry_policy=RetryPolicy(
-              #  maximum_attempts=3,
+                #  maximum_attempts=3,
                 non_retryable_error_types=[
-                    #EntityNotFoundError,
+                    # EntityNotFoundError,
                 ]
             )
         )
-
-
 
         workflow.logger.info("[workflow.logger.info]Workflow about to complete " + activity_result)
 
