@@ -6,7 +6,8 @@ from temporalio.worker import Worker
 
 #from src.workflow.activities import activities
 # from src.workflow.activities_v4 import activities
-from src.workflow.activities_v7 import activities
+from src.workflow.activities import activities
+from src.workflow.system_patch_workflow_v1 import SystemPatchWorkflow_V1
 from src.workflow.system_patch_workflow_v6 import SystemPatchWorkflow_V6, SystemPatchWorkflow_Cluster_V6, \
     SystemPatchWorkflow_Host_V6
 from src.workflow.system_patch_workflow_v7 import SystemPatchWorkflow_Host_V7, SystemPatchWorkflow_Cluster_V7, \
@@ -16,9 +17,9 @@ from src.workflow.types import MyVaultClient
 queue = "system_patch-task-queue"
 
 workflows = [
-    SystemPatchWorkflow_V7,
-    SystemPatchWorkflow_Cluster_V7,  # revisar
-    SystemPatchWorkflow_Host_V7,  # revisar
+    SystemPatchWorkflow_V1,
+    #SystemPatchWorkflow_Cluster_V7,  # revisar
+    #SystemPatchWorkflow_Host_V7,  # revisar
 ]
 
 

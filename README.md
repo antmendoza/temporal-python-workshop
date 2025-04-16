@@ -7,6 +7,8 @@ be implemented in this workshop.
 ## [system_patch_workflow_v1.py](src/workflow/system_patch_workflow_v1.py)
 This file contains the basic implementation as a set of activities to be executed in the workflow.
 
+For the sake of simplicity, some activity executions are skipped. There is a comment in the code that indicates it.
+
 Open the file and review the implementation.
 
 Every step defined in the file [System_Patching.md](./src/workflow/System_Patching.md) is defined as an activity,
@@ -31,11 +33,10 @@ You won't have to do it if you are just modifying your own implementation.
 
 # Workshop
 
-
 Each exercise’s final implementation is in the next version of the file (v1, v2, and so on).
 
 
-## Exersice 0 - Environment setup
+## Exersice 0 - Environment setup (~10 min)
 
 Make sure you can run the workflow [system_patch_workflow_v1.py](src/workflow/system_patch_workflow_v1.py)
 
@@ -47,7 +48,7 @@ Make sure you can run the workflow [system_patch_workflow_v1.py](src/workflow/sy
   - http://localhost:8080 for the [Temporal docker-compose](https://github.com/temporalio/docker-compose)
 
 
-## Exersice 1 - Message passing (Signal/Update)
+## Exersice 1 - Message passing (Signal/Update) (~ 15 min)
 During this exercise, you will implement the step 2 : "Execute SendApprovalRequestActivity. If not approved, terminate."
 
 You can use the file [system_patch_workflow_v1.py](src/workflow/system_patch_workflow_v1.py) as starting point:
@@ -57,8 +58,10 @@ You can use the file [system_patch_workflow_v1.py](src/workflow/system_patch_wor
 The main difference is that signal is asynchronous and update is synchronous.
   - https://docs.temporal.io/develop/python/message-passing#signals
   - https://docs.temporal.io/develop/python/message-passing#updates
-  - Additionally, you can add a timeout to `workflow.await` to react if the approval response takes too long. 
-    - If a timer times out it throws a TimeoutError, which you [have to catch and handle](https://github.com/temporalio/sdk-python/issues/798). 
+  - Additionally, you can add a timeout to [workflow.wait_condition](https://python.temporal.io/temporalio.workflow.html#wait_condition) 
+  to react if the approval response takes too long. 
+    - If a timer times out it throws a TimeoutError, which you have to catch and handle until [this](https://github.com/temporalio/sdk-python/issues/798) 
+    issue is resolved. 
     - To fail the workflow, you can re-throw the error as an `temporalio.exceptions.ApplicationError`
   - If the timeout is reached you can decide either fail the workflow or complete it.
 
@@ -252,7 +255,6 @@ cancel the other child workflows.
 - Check the UI, one of the child workflows should fail and the other should be cancelled.
 
 ![cancel_child.png](doc/cancel_child.png)
-
 
 
 ## Exersice 6 - Worker configuration

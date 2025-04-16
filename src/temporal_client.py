@@ -4,10 +4,11 @@ from temporalio.client import Client
 from temporalio.common import WorkflowIDReusePolicy
 
 from src.temporal_worker import queue
+from src.workflow.system_patch_workflow_v1 import SystemPatchWorkflow_V1
 from src.workflow.system_patch_workflow_v7 import SystemPatchWorkflow_V7
 from src.workflow.types import SystemPatchWorkflowInput
 
-SystemPatchWorkflow = SystemPatchWorkflow_V7
+SystemPatchWorkflow = SystemPatchWorkflow_V1
 
 
 async def main():

@@ -85,15 +85,10 @@ class MyActivities:
     async def check_host_preconditions_activity(self,
                                                 activity_input: CheckHostPreconditionsActivityInput) -> CheckHostPreconditionsActivityOutput:
 
-
-
-
-
         await asyncio.sleep(uniform(6, 10))
 
         #await asyncio.sleep(uniform(1, 5))
         #raise ApplicationError("Simulated failure in check_host_preconditions_activity", non_retryable=True)
-
 
         await self.simulate_activity_execution()
         return CheckHostPreconditionsActivityOutput(True, "ssh-private-key")

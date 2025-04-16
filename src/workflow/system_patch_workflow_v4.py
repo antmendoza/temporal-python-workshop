@@ -196,45 +196,13 @@ class SystemPatchWorkflow_V4:
                 retry_policy=RetryPolicy(maximum_attempts=3)
             )
 
-            await workflow.execute_activity_method(
-                activity=MyActivities.set_maintenance_mode_activity,
-                arg=SetMaintenanceModeActivityInput(
-                    hostname=host,
-                    # ...
-                ),
-                start_to_close_timeout=timedelta(seconds=5),
-                retry_policy=RetryPolicy(maximum_attempts=3)
-            )
+            #skip set_maintenance_mode_activity
 
-            await workflow.execute_activity_method(
-                activity=MyActivities.stop_services_activity,
-                arg=StopServicesActivityInput(
-                    hostname=host,
-                    # ...
-                ),
-                start_to_close_timeout=timedelta(seconds=5),
-                retry_policy=RetryPolicy(maximum_attempts=3)
-            )
+            #skip stop_services_activity
 
-            await workflow.execute_activity_method(
-                activity=MyActivities.wait_for_workload_drain_activity,
-                arg=WaitForWorkloadDrainActivityInput(
-                    hostname=host,
-                    # ...
-                ),
-                start_to_close_timeout=timedelta(seconds=5),
-                retry_policy=RetryPolicy(maximum_attempts=3)
-            )
+            #skip wait_for_workload_drain_activity
 
-            await workflow.execute_activity_method(
-                activity=MyActivities.run_pre_update_scripts_activity,
-                arg=RunPreUpdateScriptsActivityInput(
-                    hostname=host,
-                    # ...
-                ),
-                start_to_close_timeout=timedelta(seconds=5),
-                retry_policy=RetryPolicy(maximum_attempts=3)
-            )
+            #skip run_pre_update_scripts_activity
 
             await workflow.execute_activity_method(
                 activity=MyActivities.perform_update_activity,
@@ -247,35 +215,9 @@ class SystemPatchWorkflow_V4:
                 retry_policy=RetryPolicy(maximum_attempts=3)
             )
 
-            await workflow.execute_activity_method(
-                activity=MyActivities.start_services_activity,
-                arg=StartServicesActivityInput(
-                    hostname=host,
-                    # ...
-                ),
-                start_to_close_timeout=timedelta(seconds=5),
-                retry_policy=RetryPolicy(maximum_attempts=3)
-            )
+            #skip start_services_activity
 
-            await workflow.execute_activity_method(
-                activity=MyActivities.run_post_update_scripts_activity,
-                arg=RunPostUpdateScriptsActivityInput(
-                    hostname=host,
-                    # ...
-                ),
-                start_to_close_timeout=timedelta(seconds=5),
-                retry_policy=RetryPolicy(maximum_attempts=3)
-            )
-
-            await workflow.execute_activity_method(
-                activity=MyActivities.run_post_update_scripts_activity,
-                arg=RunPostUpdateScriptsActivityInput(
-                    hostname=host,
-                    # ...
-                ),
-                start_to_close_timeout=timedelta(seconds=5),
-                retry_policy=RetryPolicy(maximum_attempts=3)
-            )
+            #skip run_post_update_scripts_activity
 
             await workflow.execute_activity_method(
                 activity=MyActivities.check_service_health_activity,
