@@ -44,7 +44,7 @@ async def main():
 
     tasks = [asyncio.create_task(
         start_workflow(client, i)
-    ) for i in range(1,6)]
+    ) for i in range(1,5)]
     
 
     await asyncio.gather(*tasks)

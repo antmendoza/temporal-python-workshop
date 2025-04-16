@@ -274,7 +274,7 @@ cancel the other child workflows.
 ![cancel_child.png](doc/cancel_child.png)
 
 
-## Exersice 6 - Worker configuration (~ 10 min)
+## Exersice 7 - Worker configuration
 Workers are the piece of software that executes our code in form or workflow and activity task. 
 To do so they open long poll connections (gRPC) to the server to poll tasks. 
 
@@ -292,11 +292,20 @@ Observability is key to understand how our workers are performing and if they ar
 For this exersice we have integrated prometheus a grafana with the client and workers to explore 
 the [SDK metrics](https://docs.temporal.io/references/sdk-metrics) 
 
-//TODO
+This exercise demonstrates how the worker configuration can impact end-to-end workflow latency.
 
-[start-grafana_prometheus.sh](start-grafana_prometheus.sh)
+- To start the prometheus and grafana containers run the script [start-grafana_prometheus.sh](start-grafana_prometheus.sh)
+  - Open the grafana UI in http://localhost:3000, there is already a preloaded dashboard with the metrics.
+
+- We have modified the worker ([temporal_worker_v8.py](src/temporal_worker_v8.py)) to throttle the number of concurrent activity tasks, check the configuration.
+- The client ([temporal_client_v8.py](src/temporal_client_v8.py)) is configured to start 5 workflows. 
+
+- After running the client and the worker check the grafana dashboard and the UI, note that the schedule to start latency is high for activities.
+
+![schedule_to_start_latency.png](doc/schedule_to_start_latency.png)
 
 
+- Play with the worker configuration and see how it impacts the workflow execution latencies.
 
 
 # Further reading:
@@ -320,3 +329,7 @@ the [SDK metrics](https://docs.temporal.io/references/sdk-metrics)
 
 - Workflow Execution Limits
   - https://docs.temporal.io/workflow-execution/limits
+
+- Worker performance
+  - https://docs.temporal.io/develop/worker-performance
+  - https://docs.temporal.io/troubleshooting/performance-bottlenecks
