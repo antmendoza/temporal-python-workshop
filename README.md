@@ -201,7 +201,7 @@ the activity execution quickly.
 ![activity_last_failure_hb.png](doc/activity_last_failure_hb.png)
 
 
-## Exersice 4 - Concurrency
+## Exersice 4 - Concurrency  (~ 10 min)
 Temporal allows running multiple activities (or child workflows as we will see later) in parallel, 
 this is useful to reduce the execution time of the workflow when there are multiple independent tasks to be executed.
 
@@ -221,7 +221,7 @@ You can use the file [system_patch_workflow_v4.py](src/workflow/system_patch_wor
 
 Click the gear icon ⚙️ in the bottom-right corner of the UI to add or remove columns
 
-## Exersice 5 - Child workflows
+## Exersice 5 - Child workflows (~ 20 min)
 Child workflows are feature that allows you to spawn a workflow from another workflow. There are several 
 use cases for this feature, for example to 
 [represent each resource as a workflow](https://docs.temporal.io/child-workflows#represent-a-single-resource)
@@ -244,7 +244,7 @@ Modify the workflow to spawn a child workflow for each target cluster:
 
 
 
-## Exersice 6 - Cancellation and cancellation scope
+## Exersice 6 - Cancellation and cancellation scope (~ 15 min)
 The new requirement is that if updating one of the hosts fails, we want to cancel the update of the other hosts in the same cluster.
 
 In Temporal ["Cancellation is done using asyncio task cancellation"](https://github.com/temporalio/sdk-python?tab=readme-ov-file#asyncio-cancellation).
@@ -274,7 +274,7 @@ cancel the other child workflows.
 ![cancel_child.png](doc/cancel_child.png)
 
 
-## Exersice 6 - Worker configuration
+## Exersice 6 - Worker configuration (~ 10 min)
 Workers are the piece of software that executes our code in form or workflow and activity task. 
 To do so they open long poll connections (gRPC) to the server to poll tasks. 
 

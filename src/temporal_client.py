@@ -7,6 +7,7 @@ from src.temporal_worker import queue
 from src.workflow.system_patch_workflow_v1 import SystemPatchWorkflow_V1
 from src.workflow.system_patch_workflow_v3 import SystemPatchWorkflow_V3
 from src.workflow.system_patch_workflow_v4 import SystemPatchWorkflow_V4
+from src.workflow.system_patch_workflow_v5 import SystemPatchWorkflow_V5
 from src.workflow.system_patch_workflow_v7 import SystemPatchWorkflow_V7
 from src.workflow.types import SystemPatchWorkflowInput
 
