@@ -24,7 +24,7 @@ async def main():
             targetClusters=["cluster1", "cluster2", "cluster3"],
             pilotHostCount=3
         ),
-        id="my-business-id-",  # str(uuid.uuid4()),
+        id="my-business-id-SystemPatchWorkflow",  # str(uuid.uuid4()),
         task_queue=queue,
 
         # Terminate the workflow if it is already running.
