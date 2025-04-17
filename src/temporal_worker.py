@@ -8,6 +8,7 @@ from temporalio.worker import Worker
 # from src.workflow.activities_v4 import activities
 from src.workflow.activities import activities
 from src.workflow.system_patch_workflow_v1 import SystemPatchWorkflow_V1
+from src.workflow.system_patch_workflow_v2 import SystemPatchWorkflow_V2
 from src.workflow.system_patch_workflow_v3 import SystemPatchWorkflow_V3
 from src.workflow.system_patch_workflow_v4 import SystemPatchWorkflow_V4
 from src.workflow.system_patch_workflow_v5 import SystemPatchWorkflow_V5
@@ -21,8 +22,16 @@ queue = "system_patch-task-queue"
 
 workflows = [
     SystemPatchWorkflow_V1,
-    #SystemPatchWorkflow_Cluster_V6,
-    #SystemPatchWorkflow_Host_V6,
+    SystemPatchWorkflow_V2,
+    SystemPatchWorkflow_V3,
+    SystemPatchWorkflow_V4,
+    SystemPatchWorkflow_V5,
+    SystemPatchWorkflow_V6,
+    SystemPatchWorkflow_Cluster_V6,
+    SystemPatchWorkflow_Host_V6,
+    SystemPatchWorkflow_V7,
+    SystemPatchWorkflow_Cluster_V7,
+    SystemPatchWorkflow_Host_V7,
 ]
 
 

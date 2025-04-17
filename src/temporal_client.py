@@ -5,6 +5,7 @@ from temporalio.common import WorkflowIDReusePolicy
 
 from src.temporal_worker import queue
 from src.workflow.system_patch_workflow_v1 import SystemPatchWorkflow_V1
+from src.workflow.system_patch_workflow_v2 import SystemPatchWorkflow_V2
 from src.workflow.system_patch_workflow_v3 import SystemPatchWorkflow_V3
 from src.workflow.system_patch_workflow_v4 import SystemPatchWorkflow_V4
 from src.workflow.system_patch_workflow_v5 import SystemPatchWorkflow_V5
@@ -35,8 +36,8 @@ async def main():
 
     print("Workflow started with workflow_id:", workflow_handle.id)
 
-    await asyncio.sleep(3)
-    await workflow_handle.signal(SystemPatchWorkflow.approve_request)
+    #await asyncio.sleep(3)
+    #await workflow_handle.signal(SystemPatchWorkflow.approve_request)
 
     print("Result:", await workflow_handle.result())
 
