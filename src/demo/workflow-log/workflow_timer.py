@@ -16,13 +16,11 @@ class WorkflowInput:
 
 
 @workflow.defn
-class WorkflowLog:
+class WorkflowTimer:
 
     @workflow.run
     async def run(self, wf_input: WorkflowInput) -> str:
         workflow.logger.info("[workflow.logger.info]Workflow starts " + workflow.info().workflow_id)
-
-        print("[print]Workflow starts " + workflow.info().workflow_id)
 
         activity_result = await workflow.execute_activity(
             activity=activity_1,
@@ -51,7 +49,6 @@ class WorkflowLog:
 
         workflow.logger.info("[workflow.logger.info] Scheduling timer")
 
-        await asyncio.sleep(20)
 
         workflow.logger.info("[workflow.logger.info]Workflow about to complete " + activity_result)
 
